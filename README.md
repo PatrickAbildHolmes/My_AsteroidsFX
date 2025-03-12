@@ -1,5 +1,7 @@
 ## How to run it
+```bash
 java --module-path mods-mvn --class-path libs/* --module=Core/dk.sdu.cbse.App
+```
 
 Possibly instead;
 ```bash
@@ -12,11 +14,16 @@ mvn exec:exec
 mvn archetype:generate -DarchetypeGroupId=org.codehaus.mojo.archetypes -DarchetypeArtifactId=pom-root -DarchetypeVersion=RELEASE
 ```
 2) Enter the following in the command line:
-    Define value for property ’groupId’: dk.sdu.cbse
-    Define value for property ’artifactId’: MODULENAME
+    Define value for property ’groupId’: `dk.sdu.cbse`  
+
+    Define value for property ’artifactId’: `MODULENAME`
+
     Define value for property ’version’ 1.0-SNAPSHOT:
+
     Define value for property ’package’ dk.sdu.cbse:
+
     <<*click enter a few times*>>
+
 3) In line 12, change value from "pom" to "jar"
     <packaging>jar</packaging>
 4) add 'src/main/java' directory
@@ -44,14 +51,12 @@ Modules list:
 10) Player
 
 
-7 Key Considerations for JPMS
-• module-info.java: Correctly declare module dependencies and exported
+### 7 Key Considerations for JPMS
+* module-info.java: Correctly declare module dependencies and exported
 packages.
-• requires: Use to declare dependencies.
-• exports: Use to make packages accessible.
-• --add-modules: Might be needed for specific Java SE modules.
-• Circular Dependencies: Avoid them.
-• Dependency Management: Use <dependencyManagement> in the parent
-POM.
-This setup allows you to organize your project and leverage JPMS. Adjust
-module names, dependencies, and exported packages as needed.
+* requires: Use to declare dependencies.
+* exports: Use to make packages accessible.
+* --add-modules: Might be needed for specific Java SE modules.
+* Circular Dependencies: Avoid them.
+* Dependency Management: Use <dependencyManagement> in the parent POM.
+This setup allows you to organize your project and leverage JPMS. Adjust module names, dependencies, and exported packages as needed.

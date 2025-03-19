@@ -1,11 +1,12 @@
+package dk.sdu.cbse.core;
 
-import dk.sdu.cbse.Entity;
-import dk.sdu.cbse.GameData;
-import dk.sdu.cbse.GameKeys;
-import dk.sdu.cbse.World;
+import dk.sdu.cbse.common.Entity;
+import dk.sdu.cbse.common.GameData;
+import dk.sdu.cbse.common.GameKeys;
+import dk.sdu.cbse.common.World;
 import dk.sdu.cbse.common.IEntityProcessingService;
-import dk.sdu.cbse.IGamePluginService;
-import dk.sdu.cbse.IPostEntityProcessingService;
+import dk.sdu.cbse.common.IGamePluginService;
+import dk.sdu.cbse.common.IPostEntityProcessingService;
 import java.util.Collection;
 import java.util.Map;
 import java.util.ServiceLoader;
@@ -124,7 +125,6 @@ public class Main extends Application {
             polygon.setTranslateY(entity.getY());
             polygon.setRotate(entity.getRotation());
         }
-
     }
 
     private Collection<? extends IGamePluginService> getPluginServices() {

@@ -1,6 +1,6 @@
 ## How to run it
 ```bash
-java --module-path mods-mvn --class-path libs/* --module=Core/dk.sdu.cbse.App
+java --module-path mods-mvn --class-path libs/* --module=Core/dk.sdu.cbse.core.Main
 ```
 
 Possibly instead;

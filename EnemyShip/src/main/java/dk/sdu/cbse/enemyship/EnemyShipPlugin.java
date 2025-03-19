@@ -1,10 +1,10 @@
-package dk.sdu.cbse;
+package dk.sdu.cbse.enemyship;
 
-import dk.sdu.cbse.Entity;
-import dk.sdu.cbse.GameData;
-import dk.sdu.cbse.World;
-import dk.sdu.cbse.EnemyShip;
-import dk.sdu.cbse.IGamePluginService;
+import dk.sdu.cbse.common.Entity;
+import dk.sdu.cbse.common.GameData;
+import dk.sdu.cbse.common.World;
+import dk.sdu.cbse.common.enemyships.EnemyShip;
+import dk.sdu.cbse.common.IGamePluginService;
 
 import java.util.Random;
 

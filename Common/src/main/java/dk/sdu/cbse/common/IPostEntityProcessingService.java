@@ -1,7 +1,4 @@
-package dk.sdu.cbse;
-
-import dk.sdu.cbse.GameData;
-import dk.sdu.cbse.World;
+package dk.sdu.cbse.common;
 
 public interface IPostEntityProcessingService {
     void process(GameData gameData, World world);

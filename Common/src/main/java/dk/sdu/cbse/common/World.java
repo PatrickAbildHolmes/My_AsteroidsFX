@@ -1,4 +1,4 @@
-package dk.sdu.cbse;
+package dk.sdu.cbse.common;
 
 import java.util.ArrayList;
 import java.util.Collection;

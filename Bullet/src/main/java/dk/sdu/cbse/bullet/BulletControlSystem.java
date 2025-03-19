@@ -1,11 +1,11 @@
-package dk.sdu.cbse;
+package dk.sdu.cbse.bullet;
 
-import dk.sdu.cbse.Bullet;
-import dk.sdu.cbse.BulletSPI;
-import dk.sdu.cbse.Entity;
-import dk.sdu.cbse.GameData;
-import dk.sdu.cbse.World;
-import dk.sdu.cbse.IEntityProcessingService;
+import dk.sdu.cbse.common.bullet.Bullet;
+import dk.sdu.cbse.common.bullet.BulletSPI;
+import dk.sdu.cbse.common.Entity;
+import dk.sdu.cbse.common.GameData;
+import dk.sdu.cbse.common.World;
+import dk.sdu.cbse.common.IEntityProcessingService;
 
 public class BulletControlSystem implements IEntityProcessingService, BulletSPI {
 

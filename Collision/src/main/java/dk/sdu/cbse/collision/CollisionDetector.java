@@ -1,9 +1,9 @@
-package dk.sdu.cbse;
+package dk.sdu.cbse.collision;
 
-import dk.sdu.cbse.Entity;
-import dk.sdu.cbse.GameData;
-import dk.sdu.cbse.World;
-import dk.sdu.cbse.IPostEntityProcessingService;
+import dk.sdu.cbse.common.Entity;
+import dk.sdu.cbse.common.GameData;
+import dk.sdu.cbse.common.World;
+import dk.sdu.cbse.common.IPostEntityProcessingService;
 
 public class CollisionDetector implements IPostEntityProcessingService {
 

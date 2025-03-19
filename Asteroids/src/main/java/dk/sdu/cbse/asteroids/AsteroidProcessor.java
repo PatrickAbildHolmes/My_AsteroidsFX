@@ -1,11 +1,11 @@
-package dk.sdu.cbse;
+package dk.sdu.cbse.asteroids;
 
-import dk.sdu.cbse.Asteroid;
-import dk.sdu.cbse.IAsteroidSplitter;
-import dk.sdu.cbse.Entity;
-import dk.sdu.cbse.GameData;
-import dk.sdu.cbse.World;
-import dk.sdu.cbse.IEntityProcessingService;
+import dk.sdu.cbse.common.asteroids.Asteroid;
+import dk.sdu.cbse.common.asteroids.IAsteroidSplitter;
+import dk.sdu.cbse.common.Entity;
+import dk.sdu.cbse.common.GameData;
+import dk.sdu.cbse.common.World;
+import dk.sdu.cbse.common.IEntityProcessingService;
 
 public class AsteroidProcessor implements IEntityProcessingService {
 

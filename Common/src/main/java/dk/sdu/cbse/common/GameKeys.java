@@ -1,4 +1,4 @@
-package dk.sdu.cbse;
+package dk.sdu.cbse.common;
 
 public class GameKeys {
 

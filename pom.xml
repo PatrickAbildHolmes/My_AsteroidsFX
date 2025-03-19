@@ -11,7 +11,24 @@
     <maven.compiler.target>1.9</maven.compiler.target>
   </properties>
   <dependencyManagement>
-    <dependencies/>
+    <dependencies>
+      <dependency>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-controls</artifactId>
+        <version>21.0.2</version>
+      </dependency>
+      <dependency>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-graphics</artifactId>
+        <version>21.0.2</version>
+      </dependency>
+      <dependency>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-base</artifactId>
+        <version>21.0.2</version>
+      </dependency>
+
+    </dependencies>
   </dependencyManagement>
   <build>
     <plugins>
@@ -46,7 +63,7 @@
             <argument>--class-path=libs/*</argument>
             <argument>-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=127.0.0.1:8000
             </argument>
-            <argument>--module=Core/dk.sdu.cbse.App</argument>
+            <argument>--module=Core/dk.sdu.cbse.Main</argument>
             <argument>--add-modules javafx.graphics</argument>
           </arguments>
         </configuration>

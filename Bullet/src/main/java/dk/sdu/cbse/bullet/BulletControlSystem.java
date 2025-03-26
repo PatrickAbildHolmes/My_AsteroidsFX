@@ -11,12 +11,19 @@ public class BulletControlSystem implements IEntityProcessingService, BulletSPI 
 
     @Override
     public void process(GameData gameData, World world) {
-
         for (Entity bullet : world.getEntities(Bullet.class)) {
+            // Bullet movement
             double changeX = Math.cos(Math.toRadians(bullet.getRotation()));
             double changeY = Math.sin(Math.toRadians(bullet.getRotation()));
             bullet.setX(bullet.getX() + changeX * 3);
             bullet.setY(bullet.getY() + changeY * 3);
+
+            // Remove Bullet if Bullet coordinates are outside game screen
+            float screenWidth = gameData.getDisplayWidth();
+            float screenHeight = gameData.getDisplayHeight();
+            if((bullet.getX() < 0) || (bullet.getX() > screenWidth) || (bullet.getY() < 0) || (bullet.getY() > screenHeight)) {
+                world.removeEntity(bullet);
+            }
         }
     }
 

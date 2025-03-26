@@ -1,11 +1,11 @@
 ## How to run it
+Compile:
+```bash
+   mvn clean install
+```
+Run:
 ```bash
 java --module-path mods-mvn --class-path libs/* --module=Core/dk.sdu.cbse.core.Main
-```
-
-Possibly instead;
-```bash
-mvn exec:exec
 ```
 
 ## How to add more modules

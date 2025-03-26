@@ -1,5 +1,11 @@
+import dk.sdu.cbse.common.bullet.BulletSPI;
+import dk.sdu.cbse.common.IEntityProcessingService;
+import dk.sdu.cbse.common.IGamePluginService;
+
 module Bullet {
     requires Common;
     requires CommonBullet;
-    exports dk.sdu.cbse.bullet;
+    provides IGamePluginService with dk.sdu.cbse.bullet.BulletPlugin;
+    provides BulletSPI with dk.sdu.cbse.bullet.BulletControlSystem;
+    provides IEntityProcessingService with dk.sdu.cbse.bullet.BulletControlSystem;
 }

@@ -1,5 +1,7 @@
+import dk.sdu.cbse.common.IGamePluginService;
+
 module EnemyShip {
     requires CommonEnemyShips;
     requires Common;
-    exports dk.sdu.cbse.enemyship;
+    provides IGamePluginService with dk.sdu.cbse.enemyship.EnemyShipPlugin;
 }

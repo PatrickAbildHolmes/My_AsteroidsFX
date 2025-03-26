@@ -6,23 +6,18 @@
     <groupId>dk.sdu.cbse</groupId>
     <version>1.0-SNAPSHOT</version>
   </parent>
-  <groupId>dk.sdu.cbse</groupId>
   <artifactId>Asteroids</artifactId>
-  <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
-  <name>Asteroids</name>
   <dependencies>
     <dependency>
-      <groupId>dk.sdu.cbse</groupId>
+      <groupId>${project.groupId}</groupId>
       <artifactId>Common</artifactId>
-      <version>1.0-SNAPSHOT</version>
-      <scope>compile</scope>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>dk.sdu.cbse</groupId>
+      <groupId>${project.groupId}</groupId>
       <artifactId>CommonAsteroids</artifactId>
-      <version>1.0-SNAPSHOT</version>
-      <scope>compile</scope>
+      <version>${project.version}</version>
     </dependency>
   </dependencies>
 </project>

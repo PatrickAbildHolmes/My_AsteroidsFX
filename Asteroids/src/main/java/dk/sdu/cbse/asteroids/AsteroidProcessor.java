@@ -15,8 +15,6 @@ public class AsteroidProcessor implements IEntityProcessingService {
     public void process(GameData gameData, World world) {
 
         for (Entity asteroid : world.getEntities(Asteroid.class)) {
-
-            System.out.println("Processing: " + asteroid);
             double changeX = Math.cos(Math.toRadians(asteroid.getRotation()));
             double changeY = Math.sin(Math.toRadians(asteroid.getRotation()));
 

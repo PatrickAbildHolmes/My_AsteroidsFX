@@ -13,7 +13,7 @@ public class EnemyShipPlugin implements IGamePluginService {
     public void start(GameData gameData, World world) {
         Entity enemyShip = createEnemyShip(gameData);
         world.addEntity(enemyShip);
-        System.out.println("Spawning Enemy ship" + enemyShip);
+        System.out.println("Spawning Enemy ship" + enemyShip.getID());
     }
 
     @Override
@@ -25,19 +25,17 @@ public class EnemyShipPlugin implements IGamePluginService {
     }
 
     private Entity createEnemyShip(GameData gameData) {
+        System.out.println("Creating Enemy Ship");
         Entity enemyShip = new EnemyShip();
         Random rnd = new Random();
-        int size = rnd.nextInt(10) + 5; // new size.
-        enemyShip.setPolygonCoordinates(size, -size, -size, -size, -size, size, size, size);
-        enemyShip.setX(0);
-        enemyShip.setY(0);
-        enemyShip.setRadius(size);
+        enemyShip.setPolygonCoordinates(-5,-5,10,0,-5,5);
+        enemyShip.setRadius(8);
         enemyShip.setRotation(rnd.nextInt(90));
-        // Random spawn location
-        int rndx = rnd.nextInt(100) + 1;
-        int rndy = rnd.nextInt(100) + 1;
-        enemyShip.setX(rndx);
-        enemyShip.setY(rndy);
+
+        // Random spawn location along X-axis
+        int randomX = rnd.nextInt(gameData.getDisplayWidth());
+        enemyShip.setX(randomX);
+        enemyShip.setY(0);
         return enemyShip;
     }
 }

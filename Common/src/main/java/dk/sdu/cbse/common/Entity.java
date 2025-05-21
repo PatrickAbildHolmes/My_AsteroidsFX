@@ -8,7 +8,7 @@ public class Entity implements Serializable {
     private double[] polygonCoordinates;
     private double x;
     private double y;
-    private double rotation; // Represents an absolute value in direction
+    private double rotation;
     private float radius;
 
     public String getID() {

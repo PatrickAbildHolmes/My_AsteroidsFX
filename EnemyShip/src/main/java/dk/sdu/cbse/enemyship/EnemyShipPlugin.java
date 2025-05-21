@@ -13,6 +13,7 @@ public class EnemyShipPlugin implements IGamePluginService {
     public void start(GameData gameData, World world) {
         Entity enemyShip = createEnemyShip(gameData);
         world.addEntity(enemyShip);
+        System.out.println("Spawning Enemy ship" + enemyShip);
     }
 
     @Override
@@ -32,6 +33,11 @@ public class EnemyShipPlugin implements IGamePluginService {
         enemyShip.setY(0);
         enemyShip.setRadius(size);
         enemyShip.setRotation(rnd.nextInt(90));
+        // Random spawn location
+        int rndx = rnd.nextInt(100) + 1;
+        int rndy = rnd.nextInt(100) + 1;
+        enemyShip.setX(rndx);
+        enemyShip.setY(rndy);
         return enemyShip;
     }
 }

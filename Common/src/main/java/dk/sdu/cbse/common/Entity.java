@@ -4,20 +4,16 @@ import java.io.Serializable;
 import java.util.UUID;
 
 public class Entity implements Serializable {
-
     private final UUID ID = UUID.randomUUID();
-
     private double[] polygonCoordinates;
     private double x;
     private double y;
-    private double rotation;
+    private double rotation; // Represents an absolute value in direction
     private float radius;
-
 
     public String getID() {
         return ID.toString();
     }
-
 
     public void setPolygonCoordinates(double... coordinates ) {
         this.polygonCoordinates = coordinates;
@@ -26,7 +22,6 @@ public class Entity implements Serializable {
     public double[] getPolygonCoordinates() {
         return polygonCoordinates;
     }
-
 
     public void setX(double x) {
         this.x =x;
@@ -45,8 +40,8 @@ public class Entity implements Serializable {
         return y;
     }
 
-    public void setRotation(double rotation) {
-        this.rotation = rotation;
+    public void setRotation(double rotation) {  // Always pass the intended direction (rather than just change in value),
+        this.rotation = rotation;               // e.g. entity.setRotation(entity.getRotation+change)
     }
 
     public double getRotation() {

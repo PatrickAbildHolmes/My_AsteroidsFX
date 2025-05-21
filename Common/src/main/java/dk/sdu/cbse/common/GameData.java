@@ -5,6 +5,7 @@ public class GameData {
     private int displayWidth  = 800 ;
     private int displayHeight = 800;
     private final GameKeys keys = new GameKeys();
+    private String playerID; // Saving playerID is neat for when we want to look up coordinates fast
 
 
     public GameKeys getKeys() {
@@ -27,5 +28,6 @@ public class GameData {
         return displayHeight;
     }
 
-
+    public void setPlayerID(String playerID) {this.playerID = playerID;}
+    public String getPlayerID() {return playerID;}
 }

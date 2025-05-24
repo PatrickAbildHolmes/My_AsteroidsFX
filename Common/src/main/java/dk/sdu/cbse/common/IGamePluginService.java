@@ -12,7 +12,7 @@ public interface IGamePluginService {
 
     /**
      * This method is used to remove entities (Player, Asteroids, Bullet, EnemyShip et.c) from the game World,
-     * when certain conditions are met (e.g. collision).
+     * when a component is removed.
      * @param gameData Display size (X, Y) of the game world.
      * @param world The game World object that the Entity is added to.
      * */

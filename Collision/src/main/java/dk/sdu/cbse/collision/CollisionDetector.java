@@ -6,19 +6,19 @@ import dk.sdu.cbse.common.World;
 import dk.sdu.cbse.common.IPostEntityProcessingService;
 import dk.sdu.cbse.common.asteroids.IAsteroidSplitter;
 
+import java.util.List;
 import java.util.ServiceLoader;
+
+import static java.util.stream.Collectors.toList;
 
 public class CollisionDetector implements IPostEntityProcessingService {
     private IAsteroidSplitter asteroidSplitter;
 
     public CollisionDetector() {
-        ServiceLoader<IAsteroidSplitter> splitterLoader = ServiceLoader.load(IAsteroidSplitter.class);
-        asteroidSplitter = splitterLoader.findFirst().orElseThrow(() -> new RuntimeException("No AsteroidSplitter found"));
-//        try {
-//
-//        } catch (ServiceConfigurationError e) {
-//            System.err.println("Could not load AsteroidSplitter: " + e);
-//        }
+        List<IAsteroidSplitter> asteroidSplitterList = ServiceLoader.load(IAsteroidSplitter.class).stream().map(ServiceLoader.Provider::get).collect(toList());
+        for (IAsteroidSplitter splitterLoader : asteroidSplitterList) {
+            this.asteroidSplitter = splitterLoader;
+        }
     }
 
 
@@ -83,12 +83,7 @@ public class CollisionDetector implements IPostEntityProcessingService {
         // Else call AsteroidSplitter to create two new, half-size asteroids.
         if (entity.getType().equals("Asteroid")){
             if (entity.getRadius()>5) {
-
-
                 asteroidSplitter.createSplitAsteroid(entity, world);
-
-
-
             } else {world.removeEntity(entity);}
         } else {
             world.removeEntity(entity);

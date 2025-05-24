@@ -23,13 +23,24 @@ public class CollisionDetector implements IPostEntityProcessingService {
 
                 // CollisionDetection
                 if (this.collides(entity1, entity2)) {
-                    world.removeEntity(entity1);
-                    world.removeEntity(entity2);
-                    System.out.println("Collision between "+entity1.getID() + " and " + entity2.getID());
+                    // If either entity is a bullet, remove 1 hp from both entities.
+                    // Else remove both entities
+                    if (entity1.getType().equals("Bullet")||entity2.getType().equals("Bullet")) {
+                        if (entity1.getHealth()>1){
+                            entity1.setHealth(entity1.getHealth()-1);
+                        } else {world.removeEntity(entity1);}
+
+                        if (entity1.getHealth()>1){
+                            entity1.setHealth(entity1.getHealth()-1);
+                        } else {world.removeEntity(entity1);}
+                    } else {
+                        world.removeEntity(entity1);
+                        world.removeEntity(entity2);
+                    }
+                    System.out.println("Collision between "+entity1.getType() + " and " + entity2.getType());
                 }
             }
         }
-
     }
 
     public Boolean collides(Entity entity1, Entity entity2) {

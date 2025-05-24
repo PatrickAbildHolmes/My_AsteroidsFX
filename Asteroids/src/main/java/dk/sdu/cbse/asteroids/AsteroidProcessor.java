@@ -36,34 +36,20 @@ public class AsteroidProcessor implements IEntityProcessingService {
                 gameData.increaseAsteroidsKilled(); // added difficulty
             }
         }
-        // Block for respawning asteroids if 1 or less are present (so there are always at least 2)
+        // Asteroids respawn in waves whenever the game field clears
         if (numOfAsteroidsPresent < difficultyScaling) {
-            if (asteroidsKilled > 20) {
-                difficultyScaling = 50; // Min. 10 asteroids at all times
-//                for (int i =0; i<difficultyScaling; i++){
-//                    newAsteroids.start(gameData, world);
-//                }
-            } else if (asteroidsKilled > 10) {
-                difficultyScaling = 25; // 5 asteroids at all times
-//                for (int i =0; i<difficultyScaling; i++){
-//                    newAsteroids.start(gameData, world);
-//                }
-            } else if (asteroidsKilled > 5) {
+            if (asteroidsKilled > 100) { // Max difficulty
+                difficultyScaling = 40;
+            } else if (asteroidsKilled > 50) {
+                difficultyScaling = 20;
+            } else if (asteroidsKilled > 20) {
                 difficultyScaling = 10;
-//                for (int i =0; i<difficultyScaling; i++){
-//                    newAsteroids.start(gameData, world);
-//                }
-            } else if (asteroidsKilled > 2) {
+            } else if (asteroidsKilled > 5) {
                 difficultyScaling = 5;
-//                for (int i =0; i<difficultyScaling; i++){
-//                    newAsteroids.start(gameData, world);
-//                }
             }
-//            else { // 0 killed
-//                newAsteroids.start(gameData, world);
-//            }
             for (int i =0; i<difficultyScaling; i++){
                 newAsteroids.start(gameData, world);
+                gameData.increaseRounds();
             }
         }
         // Reset numOfAsteroidsPresent counting

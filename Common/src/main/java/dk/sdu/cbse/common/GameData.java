@@ -8,6 +8,7 @@ public class GameData {
     private int asteroidsKilled;
     private int enemiesKilled;
     private int playerDeaths;
+    private int rounds;
 
     public GameKeys getKeys() {
         return keys;
@@ -46,5 +47,11 @@ public class GameData {
     }
     public void increasePlayerDeaths() {
         playerDeaths++;
+    }
+    public int getRounds() {
+        return rounds;
+    }
+    public void increaseRounds() {
+        rounds++;
     }
 }

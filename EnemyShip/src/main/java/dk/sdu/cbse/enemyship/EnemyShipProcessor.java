@@ -14,12 +14,20 @@ import java.util.ServiceLoader;
 import static java.util.stream.Collectors.toList;
 
 public class EnemyShipProcessor implements IEntityProcessingService {
+    EnemyShipPlugin newEnemies;
+    int numOfEnemiesPresent;
+    public EnemyShipProcessor() {
+        this.newEnemies = new EnemyShipPlugin(); // makes more enemy ships
+        this.numOfEnemiesPresent = 0;
+    }
+
     @Override
     public void process(GameData gameData, World world) {
         for (Entity enemyShip : world.getEntities(EnemyShip.class)) {
+            this.numOfEnemiesPresent++;
             Random random = new Random();
             // enemy ship turns randomly
-            enemyShip.setRotation(enemyShip.getRotation()+random.nextInt(3));
+            enemyShip.setRotation(enemyShip.getRotation()+random.nextInt(2));
 
             // ------ Move towards player, but slower ------
             double speedMultiplier = 0.7;
@@ -36,22 +44,21 @@ public class EnemyShipProcessor implements IEntityProcessingService {
                         }
                 );
             }
-            if (enemyShip.getX() < 0) {
-                enemyShip.setX(enemyShip.getX() + gameData.getDisplayWidth());
-            }
-
-            if (enemyShip.getX() > gameData.getDisplayWidth()) {
-                enemyShip.setX(enemyShip.getX() % gameData.getDisplayWidth());
-            }
-
-            if (enemyShip.getY() < 0) {
-                enemyShip.setY(enemyShip.getY() + gameData.getDisplayHeight());
-            }
-
-            if (enemyShip.getY() > gameData.getDisplayHeight()) {
-                enemyShip.setY(enemyShip.getY() % gameData.getDisplayHeight());
+            // Enemy ships now get destroyed when exiting the window
+            float screenWidth = gameData.getDisplayWidth();
+            float screenHeight = gameData.getDisplayHeight();
+            if((enemyShip.getX() < 0) || (enemyShip.getX() > screenWidth) || (enemyShip.getY() < 0) || (enemyShip.getY() > screenHeight)) {
+                world.removeEntity(enemyShip);
+                gameData.increaseAsteroidsKilled(); // added difficulty
             }
         }
+        // Block for respawning enemy ships if less than 1 is present
+        if (numOfEnemiesPresent < 1) {
+            gameData.increaseEnemiesKilled(); // count up on respawn (easier to do here than in Collision)
+            newEnemies.start(gameData, world);
+        }
+        // Reset numOfEnemiesPresent counting
+        numOfEnemiesPresent = 0;
     }
     private Collection<? extends BulletSPI> getBulletSPIs() {
         return ServiceLoader.load(BulletSPI.class).stream().map(ServiceLoader.Provider::get).collect(toList());

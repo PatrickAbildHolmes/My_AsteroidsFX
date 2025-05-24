@@ -5,8 +5,9 @@ public class GameData {
     private int displayWidth  = 800 ;
     private int displayHeight = 800;
     private final GameKeys keys = new GameKeys();
-    private String playerID; // Saving playerID is neat for when we want to look up coordinates fast
-
+    private int asteroidsKilled;
+    private int enemiesKilled;
+    private int playerDeaths;
 
     public GameKeys getKeys() {
         return keys;
@@ -28,6 +29,22 @@ public class GameData {
         return displayHeight;
     }
 
-    public void setPlayerID(String playerID) {this.playerID = playerID;}
-    public String getPlayerID() {return playerID;}
+    public int getAsteroidsKilled() {
+        return asteroidsKilled;
+    }
+    public void increaseAsteroidsKilled() {
+        asteroidsKilled++;
+    }
+    public int getEnemiesKilled() {
+        return enemiesKilled;
+    }
+    public void increaseEnemiesKilled() {
+        enemiesKilled++;
+    }
+    public int getPlayerDeaths() {
+        return playerDeaths;
+    }
+    public void increasePlayerDeaths() {
+        playerDeaths++;
+    }
 }

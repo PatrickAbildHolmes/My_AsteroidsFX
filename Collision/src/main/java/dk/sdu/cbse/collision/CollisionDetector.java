@@ -51,18 +51,18 @@ public class CollisionDetector implements IPostEntityProcessingService {
                         if (entity1.getHealth()>1){
                             entity1.setHealth(entity1.getHealth()-1);
                         } else {
-                            killHandler(entity1, world);
+                            killHandler(entity1, world, gameData);
                         }
 
                         if (entity2.getHealth()>1){
                             entity2.setHealth(entity2.getHealth()-1);
                         } else {
-                            killHandler(entity2, world);
+                            killHandler(entity2, world, gameData);
                         }
                     } else {
                         // Neither entity was a bullet - Asteroid/Player/Enemy crash into each other, both are destroyed
-                        killHandler(entity1, world);
-                        killHandler(entity2, world);
+                        killHandler(entity1, world, gameData);
+                        killHandler(entity2, world, gameData);
                     }
                     System.out.println("Collision between "+entity1.getType() + " and " + entity2.getType());
                 }
@@ -77,11 +77,12 @@ public class CollisionDetector implements IPostEntityProcessingService {
         return distance < (entity1.getRadius() + entity2.getRadius());
     }
 
-    public void killHandler(Entity entity, World world) {
+    public void killHandler(Entity entity, World world, GameData gameData) {
         // For handling whether to remove or split an Asteroid (default size is [6..15]
         // If entity is not an asteroid, or a small asteroid, remove it.
         // Else call AsteroidSplitter to create two new, half-size asteroids.
         if (entity.getType().equals("Asteroid")){
+            gameData.increaseAsteroidsKilled();
             if (entity.getRadius()>5) {
                 asteroidSplitter.createSplitAsteroid(entity, world);
             } else {world.removeEntity(entity);}

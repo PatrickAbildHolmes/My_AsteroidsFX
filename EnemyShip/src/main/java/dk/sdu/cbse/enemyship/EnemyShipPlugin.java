@@ -34,10 +34,9 @@ public class EnemyShipPlugin implements IGamePluginService {
         enemyShip.setType("EnemyShip");
         enemyShip.setHealth(3);
 
-        // Random spawn location along X-axis
-        int randomX = rnd.nextInt(gameData.getDisplayWidth());
-        enemyShip.setX(randomX);
-        enemyShip.setY(0);
+        // Random spawn location
+        enemyShip.setY(rnd.nextInt(gameData.getDisplayHeight()));
+        enemyShip.setX(rnd.nextInt(gameData.getDisplayWidth()));
         return enemyShip;
     }
 }

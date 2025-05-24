@@ -26,7 +26,7 @@ public class AsteroidSplitterImpl implements IAsteroidSplitter {
         int numOfAsteroids = rnd.nextInt(3) + 1;
         int newSize = (int)asteroidA.getRadius()/numOfAsteroids; // This rounds down,
         if (newSize<1) newSize = 1; // so we set floor to 1
-        // Direction. #1 direction is random, and the other minor asteroids have 360/numOfAsteroids angle added (180 for 2. asteroid if 2, 120 for 2. if 3 etc.)
+        // Direction. #1 direction is random, and the other minor asteroids have 360/numOfAsteroidsPresent angle added (180 for 2. asteroid if 2, 120 for 2. if 3 etc.)
         int direction1 = rnd.nextInt(90);
         int degreeAdded = 360/numOfAsteroids;
         world.removeEntity(asteroidA); // remove initial asteroid before creating the new ones

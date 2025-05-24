@@ -4,11 +4,23 @@ import dk.sdu.cbse.common.Entity;
 import dk.sdu.cbse.common.GameData;
 import dk.sdu.cbse.common.World;
 import dk.sdu.cbse.common.IPostEntityProcessingService;
+import dk.sdu.cbse.common.asteroids.IAsteroidSplitter;
+
+import java.util.ServiceLoader;
 
 public class CollisionDetector implements IPostEntityProcessingService {
+    private IAsteroidSplitter asteroidSplitter;
 
     public CollisionDetector() {
+        ServiceLoader<IAsteroidSplitter> splitterLoader = ServiceLoader.load(IAsteroidSplitter.class);
+        asteroidSplitter = splitterLoader.findFirst().orElseThrow(() -> new RuntimeException("No AsteroidSplitter found"));
+//        try {
+//
+//        } catch (ServiceConfigurationError e) {
+//            System.err.println("Could not load AsteroidSplitter: " + e);
+//        }
     }
+
 
     @Override
     public void process(GameData gameData, World world) {
@@ -23,19 +35,34 @@ public class CollisionDetector implements IPostEntityProcessingService {
 
                 // CollisionDetection
                 if (this.collides(entity1, entity2)) {
-                    // If either entity is a bullet, remove 1 hp from both entities.
+                    // If both entities are bullets, remove both
+                    if (entity1.getType().equals("Bullet") && entity2.getType().equals("Bullet")){
+                        world.removeEntity(entity1);
+                        world.removeEntity(entity2);
+                        continue;
+                    }
+                    // But if both are asteroids, ignore collision
+                    if (entity1.getType().equals("Asteroid") && entity2.getType().equals("Asteroid")){
+                        continue;
+                    }
+                    // But if only one of either entity is a bullet, remove 1 hp from both entities.
                     // Else remove both entities
                     if (entity1.getType().equals("Bullet")||entity2.getType().equals("Bullet")) {
                         if (entity1.getHealth()>1){
                             entity1.setHealth(entity1.getHealth()-1);
-                        } else {world.removeEntity(entity1);}
+                        } else {
+                            killHandler(entity1, world);
+                        }
 
-                        if (entity1.getHealth()>1){
-                            entity1.setHealth(entity1.getHealth()-1);
-                        } else {world.removeEntity(entity1);}
+                        if (entity2.getHealth()>1){
+                            entity2.setHealth(entity2.getHealth()-1);
+                        } else {
+                            killHandler(entity2, world);
+                        }
                     } else {
-                        world.removeEntity(entity1);
-                        world.removeEntity(entity2);
+                        // Neither entity was a bullet - Asteroid/Player/Enemy crash into each other, both are destroyed
+                        killHandler(entity1, world);
+                        killHandler(entity2, world);
                     }
                     System.out.println("Collision between "+entity1.getType() + " and " + entity2.getType());
                 }
@@ -50,4 +77,21 @@ public class CollisionDetector implements IPostEntityProcessingService {
         return distance < (entity1.getRadius() + entity2.getRadius());
     }
 
+    public void killHandler(Entity entity, World world) {
+        // For handling whether to remove or split an Asteroid (default size is [6..15]
+        // If entity is not an asteroid, or a small asteroid, remove it.
+        // Else call AsteroidSplitter to create two new, half-size asteroids.
+        if (entity.getType().equals("Asteroid")){
+            if (entity.getRadius()>5) {
+
+
+                asteroidSplitter.createSplitAsteroid(entity, world);
+
+
+
+            } else {world.removeEntity(entity);}
+        } else {
+            world.removeEntity(entity);
+        }
+    }
 }

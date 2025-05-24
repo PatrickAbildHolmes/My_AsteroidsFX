@@ -30,14 +30,14 @@ public class AsteroidPlugin implements IGamePluginService {
         Entity asteroid = new Asteroid();
         Random rnd = new Random();
         // Asteroid size
-        int size = rnd.nextInt(10) + 5;
+        int size = rnd.nextInt(10) + 5; // Size from 6 to 15
         asteroid.setPolygonCoordinates(size, -size, -size, -size, -size, size, size, size);
         asteroid.setRadius(size);
         asteroid.setRotation(rnd.nextInt(90));
         asteroid.setType("Asteroid");
         asteroid.setHealth(1);
 
-        // Random spawn location
+        // Random spawn location along Y-axis
         int randomY = rnd.nextInt(gameData.getDisplayHeight());
         asteroid.setY(randomY);
         asteroid.setX(0);

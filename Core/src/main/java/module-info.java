@@ -3,7 +3,7 @@ module Core {
     requires CommonBullet;
     requires javafx.graphics;
     opens dk.sdu.cbse.core to javafx.graphics;
-    uses dk.sdu.cbse.common.IGamePluginService;
-    uses dk.sdu.cbse.common.IEntityProcessingService;
-    uses dk.sdu.cbse.common.IPostEntityProcessingService;
+    uses dk.sdu.cbse.common.IGamePluginService; // Asteroids, Bullet, EnemyShip, Player
+    uses dk.sdu.cbse.common.IEntityProcessingService; // Asteroids, Bullet, EnemyShip, Player
+    uses dk.sdu.cbse.common.IPostEntityProcessingService; // Collision
 }

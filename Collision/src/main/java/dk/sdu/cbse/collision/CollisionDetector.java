@@ -4,22 +4,22 @@ import dk.sdu.cbse.common.Entity;
 import dk.sdu.cbse.common.GameData;
 import dk.sdu.cbse.common.World;
 import dk.sdu.cbse.common.IPostEntityProcessingService;
-import dk.sdu.cbse.common.asteroids.IAsteroidSplitter;
-
-import java.util.List;
-import java.util.ServiceLoader;
-
-import static java.util.stream.Collectors.toList;
+//import dk.sdu.cbse.common.asteroids.IAsteroidSplitter;
+//
+//import java.util.List;
+//import java.util.ServiceLoader;
+//
+//import static java.util.stream.Collectors.toList;
 
 public class CollisionDetector implements IPostEntityProcessingService {
-    private IAsteroidSplitter asteroidSplitter;
-
-    public CollisionDetector() {
-        List<IAsteroidSplitter> asteroidSplitterList = ServiceLoader.load(IAsteroidSplitter.class).stream().map(ServiceLoader.Provider::get).collect(toList());
-        for (IAsteroidSplitter splitterLoader : asteroidSplitterList) {
-            this.asteroidSplitter = splitterLoader;
-        }
-    }
+//    private IAsteroidSplitter asteroidSplitter;
+//
+//    public CollisionDetector() {
+//        List<IAsteroidSplitter> asteroidSplitterList = ServiceLoader.load(IAsteroidSplitter.class).stream().map(ServiceLoader.Provider::get).collect(toList());
+//        for (IAsteroidSplitter splitterLoader : asteroidSplitterList) {
+//            this.asteroidSplitter = splitterLoader;
+//        }
+//    }
 
 
     @Override
@@ -51,18 +51,18 @@ public class CollisionDetector implements IPostEntityProcessingService {
                         if (entity1.getHealth()>1){
                             entity1.setHealth(entity1.getHealth()-1);
                         } else {
-                            killHandler(entity1, world, gameData);
+                            killHandler(entity1, world);
                         }
 
                         if (entity2.getHealth()>1){
                             entity2.setHealth(entity2.getHealth()-1);
                         } else {
-                            killHandler(entity2, world, gameData);
+                            killHandler(entity2, world);
                         }
                     } else {
                         // Neither entity was a bullet - Asteroid/Player/Enemy crash into each other, both are destroyed
-                        killHandler(entity1, world, gameData);
-                        killHandler(entity2, world, gameData);
+                        killHandler(entity1, world);
+                        killHandler(entity2, world);
                     }
                     System.out.println("Collision between "+entity1.getType() + " and " + entity2.getType());
                 }
@@ -77,17 +77,8 @@ public class CollisionDetector implements IPostEntityProcessingService {
         return distance < (entity1.getRadius() + entity2.getRadius());
     }
 
-    public void killHandler(Entity entity, World world, GameData gameData) {
-        // For handling whether to remove or split an Asteroid (default size is [6..15]
-        // If entity is not an asteroid, or a small asteroid, remove it.
-        // Else call AsteroidSplitter to create two new, half-size asteroids.
-        if (entity.getType().equals("Asteroid")){
-            gameData.increaseAsteroidsKilled();
-            if (entity.getRadius()>5) {
-                asteroidSplitter.createSplitAsteroid(entity, world);
-            } else {world.removeEntity(entity);}
-        } else {
-            world.removeEntity(entity);
-        }
+    public void killHandler(Entity entity, World world) {
+        entity.onRemoval(entity, world);
+        world.removeEntity(entity); // Sadly entity.onRemoval requires 'World world' to be passed, so it cannot be baked into world.removeEntity(entity).
     }
 }

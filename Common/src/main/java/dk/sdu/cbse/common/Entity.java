@@ -3,7 +3,7 @@ package dk.sdu.cbse.common;
 import java.io.Serializable;
 import java.util.UUID;
 
-public class Entity implements Serializable {
+public class Entity implements Serializable, IEntityRemoval {
     private final UUID ID = UUID.randomUUID();
     private double[] polygonCoordinates;
     private double x;
@@ -64,4 +64,8 @@ public class Entity implements Serializable {
     public void setType(String type) {this.type = type;}
     public int getHealth() {return health;}
     public void setHealth(int health) {this.health = health;}
+
+    @Override
+    public void onRemoval(Entity entity, World world) { // For implementing AsteroidSplitter on Asteroid
+    }
 }

@@ -1,17 +1,13 @@
 package dk.sdu.cbse.core;
 
-import dk.sdu.cbse.common.Entity;
-import dk.sdu.cbse.common.GameData;
-import dk.sdu.cbse.common.GameKeys;
-import dk.sdu.cbse.common.World;
-import dk.sdu.cbse.common.IEntityProcessingService;
-import dk.sdu.cbse.common.IGamePluginService;
-import dk.sdu.cbse.common.IPostEntityProcessingService;
-import java.util.Collection;
-import java.util.Map;
-import java.util.ServiceLoader;
+import dk.sdu.cbse.common.*;
+
+import java.lang.module.ModuleFinder;
+import java.nio.file.Paths;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import static java.util.stream.Collectors.toList;
+
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -27,8 +23,16 @@ public class Main extends Application {
     private final World world = new World();
     private final Map<Entity, Polygon> polygons = new ConcurrentHashMap<>();
     private final Pane gameWindow = new Pane();
+    private static ModuleLayer layer;
 
     public static void main(String[] args) {
+
+        ModuleLayer layer = createLayer("mods-mvn", "Player");
+        ServiceLoader<ISplitConflict> loader = ServiceLoader.load(layer, ISplitConflict.class);
+        loader.stream().map(ServiceLoader.Provider::get).forEach(conflictClass ->
+                System.out.println(conflictClass.testSplitConflict())
+        );
+
         launch(Main.class);
     }
 
@@ -137,5 +141,12 @@ public class Main extends Application {
 
     private Collection<? extends IPostEntityProcessingService> getPostEntityProcessingServices() {
         return ServiceLoader.load(IPostEntityProcessingService.class).stream().map(ServiceLoader.Provider::get).collect(toList());
+    }
+
+    private static ModuleLayer createLayer(String from, String module) {
+        var finder = ModuleFinder.of(Paths.get(from));
+        var parent = ModuleLayer.boot();
+        var cf = parent.configuration().resolve(finder, ModuleFinder.of(), Set.of(module));
+        return parent.defineModulesWithOneLoader(cf, ClassLoader.getSystemClassLoader());
     }
 }

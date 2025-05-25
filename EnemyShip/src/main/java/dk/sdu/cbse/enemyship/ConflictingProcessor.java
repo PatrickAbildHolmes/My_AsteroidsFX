@@ -1,4 +1,4 @@
-package dk.sdu.cbse.conflict;
+package dk.sdu.cbse.enemyship;
 
 import dk.sdu.cbse.common.ISplitConflict;
 

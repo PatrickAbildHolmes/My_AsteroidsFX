@@ -23,16 +23,13 @@ public class Main extends Application {
     private final World world = new World();
     private final Map<Entity, Polygon> polygons = new ConcurrentHashMap<>();
     private final Pane gameWindow = new Pane();
-    private static ModuleLayer layer;
 
     public static void main(String[] args) {
-
         ModuleLayer layer = createLayer("mods-mvn", "Player");
         ServiceLoader<ISplitConflict> loader = ServiceLoader.load(layer, ISplitConflict.class);
         loader.stream().map(ServiceLoader.Provider::get).forEach(conflictClass ->
                 System.out.println(conflictClass.testSplitConflict())
         );
-
         launch(Main.class);
     }
 

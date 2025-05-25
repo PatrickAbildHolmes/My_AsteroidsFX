@@ -6,4 +6,5 @@ module Core {
     uses dk.sdu.cbse.common.IGamePluginService; // Asteroids, Bullet, EnemyShip, Player
     uses dk.sdu.cbse.common.IEntityProcessingService; // Asteroids, Bullet, EnemyShip, Player
     uses dk.sdu.cbse.common.IPostEntityProcessingService;
+    uses dk.sdu.cbse.common.ISplitConflict;
 }

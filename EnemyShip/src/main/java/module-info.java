@@ -6,9 +6,8 @@ module EnemyShip {
     requires Common;
     requires CommonBullet;
     requires CommonEnemyShips;
-    exports dk.sdu.cbse.conflict;
     uses dk.sdu.cbse.common.bullet.BulletSPI;
     provides IGamePluginService with dk.sdu.cbse.enemyship.EnemyShipPlugin;
     provides IEntityProcessingService with dk.sdu.cbse.enemyship.EnemyShipProcessor;
-    provides ISplitConflict with dk.sdu.cbse.conflict.ConflictingProcessor;
+    provides ISplitConflict with dk.sdu.cbse.enemyship.ConflictingProcessor;
 }

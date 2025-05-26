@@ -15,6 +15,16 @@ public class MainConfig {
 
     public MainConfig() {}
 
+    /** Main.java calls on this config to create an instance of Game,
+     * which in turns calls on the Beans here to load the
+     *
+     * @return Game Instance of Game, containing
+     */
+    @Bean
+    public Game game(){
+        return new Game(entityProcessingServiceList(),postEntityProcessingServices(),gamePluginServices());
+    }
+
     @Bean
     public List<IEntityProcessingService> entityProcessingServiceList(){
         return ServiceLoader.load(IEntityProcessingService.class).stream().map(ServiceLoader.Provider::get).collect(toList());

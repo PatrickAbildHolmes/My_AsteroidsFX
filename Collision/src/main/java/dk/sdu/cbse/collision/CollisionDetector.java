@@ -4,23 +4,8 @@ import dk.sdu.cbse.common.Entity;
 import dk.sdu.cbse.common.GameData;
 import dk.sdu.cbse.common.World;
 import dk.sdu.cbse.common.IPostEntityProcessingService;
-//import dk.sdu.cbse.common.asteroids.IAsteroidSplitter;
-//
-//import java.util.List;
-//import java.util.ServiceLoader;
-//
-//import static java.util.stream.Collectors.toList;
 
 public class CollisionDetector implements IPostEntityProcessingService {
-//    private IAsteroidSplitter asteroidSplitter;
-//
-//    public CollisionDetector() {
-//        List<IAsteroidSplitter> asteroidSplitterList = ServiceLoader.load(IAsteroidSplitter.class).stream().map(ServiceLoader.Provider::get).collect(toList());
-//        for (IAsteroidSplitter splitterLoader : asteroidSplitterList) {
-//            this.asteroidSplitter = splitterLoader;
-//        }
-//    }
-
 
     @Override
     public void process(GameData gameData, World world) {

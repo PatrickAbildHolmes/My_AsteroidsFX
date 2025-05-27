@@ -1,4 +1,5 @@
 package dk.sdu.cbse.common;
+import org.springframework.web.client.RestTemplate;
 
 public class GameData {
 
@@ -9,6 +10,13 @@ public class GameData {
     private int enemiesKilled;
     private int playerDeaths;
     private int rounds;
+
+    private RestTemplate restTemplate;
+
+    public GameData(){} // Default constructor for testing purposes
+    public GameData(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
 
     public GameKeys getKeys() {
         return keys;
@@ -35,23 +43,45 @@ public class GameData {
     }
     public void increaseAsteroidsKilled() {
         asteroidsKilled++;
+        String points = String.valueOf(1);
+        if (restTemplate != null) {
+            restTemplate.getForObject("http://localhost:8080/addScore?point="+points, Void.class);
+        }
     }
     public int getEnemiesKilled() {
         return enemiesKilled;
     }
     public void increaseEnemiesKilled() {
         enemiesKilled++;
+        String points = String.valueOf(10);
+        if (restTemplate != null) {
+            restTemplate.getForObject("http://localhost:8080/addScore?point="+points, Void.class);
+        }
     }
     public int getPlayerDeaths() {
         return playerDeaths;
     }
     public void increasePlayerDeaths() {
         playerDeaths++;
+        String points = String.valueOf(-10);
+        if (restTemplate != null) {
+            restTemplate.getForObject("http://localhost:8080/addScore?point="+points, Void.class);
+        }
     }
     public int getRounds() {
         return rounds;
     }
     public void increaseRounds() {
         rounds++;
+        String points = String.valueOf(20);
+        if (restTemplate != null) {
+            restTemplate.getForObject("http://localhost:8080/addScore?point="+points, Void.class);
+        }
+    }
+    public int getCurrentScore() {
+        if (restTemplate != null) {
+            return restTemplate.getForObject("http://localhost:8080/getScore", Integer.class);
+        }
+        return 0; // Default score if RestTemplate is not available
     }
 }

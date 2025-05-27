@@ -74,6 +74,11 @@
       <artifactId>spring-jcl</artifactId>
       <version>6.1.14</version>
     </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-web</artifactId>
+      <version>6.1.14</version>
+    </dependency>
   </dependencies>
 
   <build>
@@ -89,7 +94,20 @@
               <goal>copy-dependencies</goal>
             </goals>
             <configuration>
-              <includeArtifactIds>javafx-controls,javafx-graphics,javafx-base,spring-context,spring-beans,spring-core,spring-aop,spring-expression,spring-jcl</includeArtifactIds>
+              <includeArtifactIds>
+                javafx-controls,
+                javafx-graphics,
+                javafx-base,
+                spring-context,
+                spring-beans,
+                spring-core,
+                spring-aop,
+                spring-expression,
+                spring-jcl,
+                spring-web,
+                spring-boot,
+                spring-boot-autoconfigure
+              </includeArtifactIds>
               <outputDirectory>../mods-mvn</outputDirectory>
             </configuration>
           </execution>

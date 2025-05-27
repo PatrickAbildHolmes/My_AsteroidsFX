@@ -20,32 +20,36 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 
 
 @Component
 public class Game extends Application {
-    private final GameData gameData = new GameData();
     private final World world = new World();
     private final Map<Entity, Polygon> polygons = new ConcurrentHashMap<>();
     private final Pane gameWindow = new Pane();
     private final List<IEntityProcessingService> processingServices;// = context.getBean(List<IEntityProcessingService>);
     private final List<IPostEntityProcessingService> postProcessingServices;
     private final List<IGamePluginService> gamePluginServices;
+    private final GameData gameData;
+    private Text scoreText;
 
     // Builds the Game by using the associated Beans
     public Game(List<IEntityProcessingService> IEntityProcessingService,
                 List<IPostEntityProcessingService> IPostEntityProcessingService,
-                List<IGamePluginService> IGamePluginService){
+                List<IGamePluginService> IGamePluginService,
+                RestTemplate restTemplate){
         this.processingServices = IEntityProcessingService;
         this.postProcessingServices = IPostEntityProcessingService;
         this.gamePluginServices = IGamePluginService;
+        this.gameData = new GameData(restTemplate);
     }
 
     @Override
     public void start(Stage window) throws Exception {
-        Text text = new Text(10, 20, "Destroyed asteroids: 0");
+        scoreText = new Text(10, 20, "Points: 0");
         gameWindow.setPrefSize(gameData.getDisplayWidth(), gameData.getDisplayHeight());
-        gameWindow.getChildren().add(text);
+        gameWindow.getChildren().add(scoreText);
 
         Scene scene = new Scene(gameWindow);
         scene.setOnKeyPressed(event -> {
@@ -87,13 +91,11 @@ public class Game extends Application {
             polygons.put(entity, polygon);
             gameWindow.getChildren().add(polygon);
         }
-        render();
+//        render(); // Commented out because it also gets called in Main.java . Game becomes /very fast/
         window.setScene(scene);
         window.setTitle("ASTEROIDS");
         window.show();
-
     }
-
 
     public void render() {
         new AnimationTimer() {
@@ -103,7 +105,6 @@ public class Game extends Application {
                 draw();
                 gameData.getKeys().update();
             }
-
         }.start();
     }
 
@@ -136,6 +137,9 @@ public class Game extends Application {
             polygon.setTranslateY(entity.getY());
             polygon.setRotate(entity.getRotation());
         }
+        // Update score
+        scoreText = new Text(10, 20, "Points: "+gameData.getCurrentScore());
+        gameWindow.getChildren().add(scoreText);
     }
 
 }

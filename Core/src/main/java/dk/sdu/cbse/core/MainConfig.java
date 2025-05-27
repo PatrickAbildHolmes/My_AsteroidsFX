@@ -4,6 +4,7 @@ import dk.sdu.cbse.common.*;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.ServiceLoader;
@@ -15,6 +16,11 @@ public class MainConfig {
 
     public MainConfig() {}
 
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
+
     /** Main.java calls on this config to create an instance of Game,
      * which in turns calls on the Beans here to load the
      *
@@ -22,7 +28,7 @@ public class MainConfig {
      */
     @Bean
     public Game game(){
-        return new Game(entityProcessingServiceList(),postEntityProcessingServices(),gamePluginServices());
+        return new Game(entityProcessingServiceList(),postEntityProcessingServices(),gamePluginServices(),restTemplate());
     }
 
     @Bean

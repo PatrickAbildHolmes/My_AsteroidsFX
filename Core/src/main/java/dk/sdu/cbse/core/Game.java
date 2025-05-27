@@ -27,7 +27,7 @@ public class Game extends Application {
     private final World world = new World();
     private final Map<Entity, Polygon> polygons = new ConcurrentHashMap<>();
     private final Pane gameWindow = new Pane();
-    private final List<IEntityProcessingService> processingServices;// = context.getBean(List<IEntityProcessingService>);
+    private final List<IEntityProcessingService> processingServices;
     private final List<IPostEntityProcessingService> postProcessingServices;
     private final List<IGamePluginService> gamePluginServices;
     private final GameData gameData = new GameData();
@@ -88,7 +88,6 @@ public class Game extends Application {
             polygons.put(entity, polygon);
             gameWindow.getChildren().add(polygon);
         }
-//        render(); // Commented out because it also gets called in Main.java . Game becomes /very fast/
         window.setScene(scene);
         window.setTitle("ASTEROIDS");
         window.show();
@@ -141,8 +140,6 @@ public class Game extends Application {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        scoreText = new Text(10, 20, "Points: "+score);
-        gameWindow.getChildren().add(scoreText);
+        scoreText.setText("Points: " + score);
     }
-
 }

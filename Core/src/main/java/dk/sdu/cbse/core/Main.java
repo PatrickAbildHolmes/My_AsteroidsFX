@@ -7,7 +7,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class Main extends Application {
-
+    /**
+     * REMEMBER TO START THE ScoringSystemApplication SEPARATELY FIRST
+     * */
     public static void main(String[] args) {
         launch(Main.class);
     }

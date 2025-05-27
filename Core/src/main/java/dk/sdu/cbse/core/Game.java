@@ -8,6 +8,7 @@ import dk.sdu.cbse.common.IEntityProcessingService;
 import dk.sdu.cbse.common.IGamePluginService;
 import dk.sdu.cbse.common.IPostEntityProcessingService;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -21,16 +22,16 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.springframework.stereotype.Component;
 
-
 @Component
 public class Game extends Application {
-    private final GameData gameData = new GameData();
     private final World world = new World();
     private final Map<Entity, Polygon> polygons = new ConcurrentHashMap<>();
     private final Pane gameWindow = new Pane();
-    private final List<IEntityProcessingService> processingServices;// = context.getBean(List<IEntityProcessingService>);
+    private final List<IEntityProcessingService> processingServices;
     private final List<IPostEntityProcessingService> postProcessingServices;
     private final List<IGamePluginService> gamePluginServices;
+    private final GameData gameData = new GameData();
+    private Text scoreText;
 
     // Builds the Game by using the associated Beans
     public Game(List<IEntityProcessingService> IEntityProcessingService,
@@ -43,9 +44,9 @@ public class Game extends Application {
 
     @Override
     public void start(Stage window) throws Exception {
-        Text text = new Text(10, 20, "Destroyed asteroids: 0");
+        scoreText = new Text(10, 20, "Points: 0");
         gameWindow.setPrefSize(gameData.getDisplayWidth(), gameData.getDisplayHeight());
-        gameWindow.getChildren().add(text);
+        gameWindow.getChildren().add(scoreText);
 
         Scene scene = new Scene(gameWindow);
         scene.setOnKeyPressed(event -> {
@@ -87,13 +88,10 @@ public class Game extends Application {
             polygons.put(entity, polygon);
             gameWindow.getChildren().add(polygon);
         }
-        render();
         window.setScene(scene);
         window.setTitle("ASTEROIDS");
         window.show();
-
     }
-
 
     public void render() {
         new AnimationTimer() {
@@ -103,7 +101,6 @@ public class Game extends Application {
                 draw();
                 gameData.getKeys().update();
             }
-
         }.start();
     }
 
@@ -116,7 +113,7 @@ public class Game extends Application {
         }
     }
 
-    private void draw() {
+    private void draw(){
         for (Entity polygonEntity : polygons.keySet()) {
             if(!world.getEntities().contains(polygonEntity)){
                 Polygon removedPolygon = polygons.get(polygonEntity);
@@ -136,6 +133,13 @@ public class Game extends Application {
             polygon.setTranslateY(entity.getY());
             polygon.setRotate(entity.getRotation());
         }
+        // Update score
+        String score = "0";
+        try {
+            score = String.valueOf(gameData.getCurrentScore());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        scoreText.setText("Points: " + score);
     }
-
 }

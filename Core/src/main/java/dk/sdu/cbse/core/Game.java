@@ -8,6 +8,7 @@ import dk.sdu.cbse.common.IEntityProcessingService;
 import dk.sdu.cbse.common.IGamePluginService;
 import dk.sdu.cbse.common.IPostEntityProcessingService;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -20,8 +21,6 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
-
 
 @Component
 public class Game extends Application {
@@ -31,18 +30,16 @@ public class Game extends Application {
     private final List<IEntityProcessingService> processingServices;// = context.getBean(List<IEntityProcessingService>);
     private final List<IPostEntityProcessingService> postProcessingServices;
     private final List<IGamePluginService> gamePluginServices;
-    private final GameData gameData;
+    private final GameData gameData = new GameData();
     private Text scoreText;
 
     // Builds the Game by using the associated Beans
     public Game(List<IEntityProcessingService> IEntityProcessingService,
                 List<IPostEntityProcessingService> IPostEntityProcessingService,
-                List<IGamePluginService> IGamePluginService,
-                RestTemplate restTemplate){
+                List<IGamePluginService> IGamePluginService){
         this.processingServices = IEntityProcessingService;
         this.postProcessingServices = IPostEntityProcessingService;
         this.gamePluginServices = IGamePluginService;
-        this.gameData = new GameData(restTemplate);
     }
 
     @Override
@@ -117,7 +114,7 @@ public class Game extends Application {
         }
     }
 
-    private void draw() {
+    private void draw(){
         for (Entity polygonEntity : polygons.keySet()) {
             if(!world.getEntities().contains(polygonEntity)){
                 Polygon removedPolygon = polygons.get(polygonEntity);
@@ -138,7 +135,13 @@ public class Game extends Application {
             polygon.setRotate(entity.getRotation());
         }
         // Update score
-        scoreText = new Text(10, 20, "Points: "+gameData.getCurrentScore());
+        String score = "0";
+        try {
+            score = String.valueOf(gameData.getCurrentScore());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        scoreText = new Text(10, 20, "Points: "+score);
         gameWindow.getChildren().add(scoreText);
     }
 

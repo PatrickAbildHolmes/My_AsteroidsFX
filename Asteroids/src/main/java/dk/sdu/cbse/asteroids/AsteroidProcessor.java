@@ -5,6 +5,8 @@ import dk.sdu.cbse.common.GameData;
 import dk.sdu.cbse.common.World;
 import dk.sdu.cbse.common.IEntityProcessingService;
 
+import java.io.IOException;
+
 public class AsteroidProcessor implements IEntityProcessingService {
     AsteroidPlugin newAsteroids;
     int numOfAsteroidsPresent;
@@ -32,7 +34,11 @@ public class AsteroidProcessor implements IEntityProcessingService {
             float screenHeight = gameData.getDisplayHeight();
             if((asteroid.getX() < 0) || (asteroid.getX() > screenWidth) || (asteroid.getY() < 0) || (asteroid.getY() > screenHeight)) {
                 world.removeEntity(asteroid);
-                gameData.increaseAsteroidsKilled(); // added difficulty
+                try {
+                    gameData.increaseAsteroidsKilled(); // added difficulty
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
         // Asteroids respawn in waves whenever the game field clears
@@ -48,7 +54,11 @@ public class AsteroidProcessor implements IEntityProcessingService {
             }
             for (int i =0; i<difficultyScaling; i++){
                 newAsteroids.start(gameData, world);
-                gameData.increaseRounds();
+                try {
+                    gameData.increaseRounds();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
         // Reset numOfAsteroidsPresent counting

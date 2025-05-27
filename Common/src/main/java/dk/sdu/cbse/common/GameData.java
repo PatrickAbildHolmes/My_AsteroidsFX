@@ -1,5 +1,6 @@
 package dk.sdu.cbse.common;
-import org.springframework.web.client.RestTemplate;
+import java.io.*;
+import java.net.*;
 
 public class GameData {
 
@@ -10,78 +11,75 @@ public class GameData {
     private int enemiesKilled;
     private int playerDeaths;
     private int rounds;
+    private final String baseURL;
 
-    private RestTemplate restTemplate;
-
-    public GameData(){} // Default constructor for testing purposes
-    public GameData(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
+    public GameData() {
+        this.baseURL = "http://localhost:8080";
     }
-
-    public GameKeys getKeys() {
-        return keys;
-    }
-
-    public void setDisplayWidth(int width) {
-        this.displayWidth = width;
-    }
-
-    public int getDisplayWidth() {
-        return displayWidth;
-    }
-
-    public void setDisplayHeight(int height) {
-        this.displayHeight = height;
-    }
-
-    public int getDisplayHeight() {
-        return displayHeight;
-    }
-
-    public int getAsteroidsKilled() {
-        return asteroidsKilled;
-    }
-    public void increaseAsteroidsKilled() {
+    public void increaseAsteroidsKilled() throws IOException {
         asteroidsKilled++;
-        String points = String.valueOf(1);
-        if (restTemplate != null) {
-            restTemplate.getForObject("http://localhost:8080/addScore?point="+points, Void.class);
-        }
+        // a "PUT" request to http://localhost:8080/addScore?point=10 adds 10 points
+        try {addScore(1);}
+        catch (Exception e) {e.printStackTrace();}
     }
-    public int getEnemiesKilled() {
-        return enemiesKilled;
-    }
-    public void increaseEnemiesKilled() {
+    public void increaseEnemiesKilled() throws IOException {
         enemiesKilled++;
-        String points = String.valueOf(10);
-        if (restTemplate != null) {
-            restTemplate.getForObject("http://localhost:8080/addScore?point="+points, Void.class);
-        }
+        try {addScore(10);}
+        catch (Exception e) {e.printStackTrace();}
     }
-    public int getPlayerDeaths() {
-        return playerDeaths;
-    }
-    public void increasePlayerDeaths() {
+    public void increasePlayerDeaths() throws IOException {
         playerDeaths++;
-        String points = String.valueOf(-10);
-        if (restTemplate != null) {
-            restTemplate.getForObject("http://localhost:8080/addScore?point="+points, Void.class);
-        }
+        try {addScore(-10);}
+        catch (Exception e) {e.printStackTrace();}
     }
-    public int getRounds() {
-        return rounds;
-    }
-    public void increaseRounds() {
+    public void increaseRounds() throws IOException {
         rounds++;
-        String points = String.valueOf(20);
-        if (restTemplate != null) {
-            restTemplate.getForObject("http://localhost:8080/addScore?point="+points, Void.class);
-        }
+        try {addScore(10);}
+        catch (Exception e) {e.printStackTrace();}
     }
-    public int getCurrentScore() {
-        if (restTemplate != null) {
-            return restTemplate.getForObject("http://localhost:8080/getScore", Integer.class);
+    public int getCurrentScore() throws IOException { // Called from Game.java
+        String endpoint = "/getScore";
+        URL url = new URL(this.baseURL+endpoint);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        return Integer.parseInt(connect(connection,"GET"));
+    }
+
+    public int getRounds() {return rounds;}
+    public int getAsteroidsKilled() {return asteroidsKilled;}
+    public int getPlayerDeaths() {return playerDeaths;}
+    public int getEnemiesKilled() {return enemiesKilled;}
+    public GameKeys getKeys() {return keys;}
+    public void setDisplayWidth(int width) {this.displayWidth = width;}
+    public int getDisplayWidth() {return displayWidth;}
+    public void setDisplayHeight(int height) {this.displayHeight = height;}
+    public int getDisplayHeight() {return displayHeight;}
+
+    public void addScore(int addPoints) throws IOException {
+        String endpoint = "/addScore?points=" + addPoints;
+        URL url = new URL(this.baseURL+endpoint);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connect(connection,"PUT");
+    }
+
+    // Helper-method. Made using https://www.baeldung.com/java-http-request
+    public String connect(HttpURLConnection connection, String requestType) throws IOException {
+        // Setting up connection
+        connection.setRequestMethod(requestType);
+        connection.setRequestProperty("Content-Type", "application/json");
+        connection.setConnectTimeout(5000);
+        connection.setReadTimeout(5000);
+        connection.connect();
+
+        // Reading the return value
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(connection.getInputStream()));
+        String inputLine;
+        StringBuilder content = new StringBuilder();
+        while ((inputLine = in.readLine()) != null) {
+            content.append(inputLine);
         }
-        return 0; // Default score if RestTemplate is not available
+        in.close();
+        connection.disconnect();
+        return content.toString();
     }
 }

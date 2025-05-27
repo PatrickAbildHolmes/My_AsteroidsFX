@@ -7,6 +7,7 @@ import dk.sdu.cbse.common.GameData;
 import dk.sdu.cbse.common.World;
 import dk.sdu.cbse.common.IEntityProcessingService;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Random;
 import java.util.ServiceLoader;
@@ -49,12 +50,20 @@ public class EnemyShipProcessor implements IEntityProcessingService {
             float screenHeight = gameData.getDisplayHeight();
             if((enemyShip.getX() < 0) || (enemyShip.getX() > screenWidth) || (enemyShip.getY() < 0) || (enemyShip.getY() > screenHeight)) {
                 world.removeEntity(enemyShip);
-                gameData.increaseAsteroidsKilled(); // added difficulty
+                try {
+                    gameData.increaseAsteroidsKilled(); // added difficulty
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
         // Block for respawning enemy ships if less than 1 is present
         if (numOfEnemiesPresent < 1) {
-            gameData.increaseEnemiesKilled(); // count up on respawn (easier to do here than in Collision)
+            try {
+                gameData.increaseEnemiesKilled(); // count up on respawn (easier to do here than in Collision)
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             newEnemies.start(gameData, world);
         }
         // Reset numOfEnemiesPresent counting

@@ -6,6 +6,8 @@ import dk.sdu.cbse.common.GameData;
 import dk.sdu.cbse.common.GameKeys;
 import dk.sdu.cbse.common.World;
 import dk.sdu.cbse.common.IEntityProcessingService;
+
+import java.io.IOException;
 import java.util.Collection;
 import java.util.ServiceLoader;
 import static java.util.stream.Collectors.toList;
@@ -54,7 +56,11 @@ public class PlayerControlSystem implements IEntityProcessingService {
         }
         // respawn if missing
         if (playerPresent  < 1) {
-            gameData.increasePlayerDeaths(); // count up on respawn (easier to do here than in Collision)
+            try {
+                gameData.increasePlayerDeaths(); // count up on respawn (easier to do here than in Collision)
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             playerRespawn.start(gameData, world);
         }
         // Reset playerPresent

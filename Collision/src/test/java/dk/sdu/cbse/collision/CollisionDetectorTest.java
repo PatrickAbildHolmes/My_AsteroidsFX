@@ -9,9 +9,9 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * 8 Tests.<br>
+ * 9 Tests.<br>
  * 3 tests that test whether the .collides() method works correctly (I.E. collision is detected correctly).<br>
- * 5 tests that should assert True by correctly simulating how a collision between Entities of the respective types should behave.<br>
+ * 6 tests that should assert True by correctly simulating how a collision between Entities of the respective types should behave.<br>
  */
 public class CollisionDetectorTest {
     CollisionDetector collisionDetector = new CollisionDetector();
@@ -202,30 +202,21 @@ public class CollisionDetectorTest {
         int size = 10;
         asteroid1.setPolygonCoordinates(size, -size, -size, -size, -size, size, size, size);
         bullet2.setPolygonCoordinates(1, -1, 1, 1, -1, 1, -1, -1);
-
         asteroid1.setRadius(size);
         bullet2.setRadius(1);
-
         asteroid1.setType("Asteroid");
         bullet2.setType("Bullet");
-
         asteroid1.setHealth(1);
         bullet2.setHealth(1);
-
         asteroid1.setX(10);
         bullet2.setX(10);
-
         asteroid1.setY(10);
         bullet2.setY(10);
-
         world.addEntity(asteroid1);
         world.addEntity(bullet2);
-
-        collisionDetector.process(gameData, world); // This should NOT remove them
-
+        collisionDetector.process(gameData, world); // This should remove them
         boolean exists1 = world.getEntity(asteroid1.getID()) != null;
         assertFalse(exists1); // Assert that they do in fact collide as they should
-
         boolean exists2 = world.getEntity(bullet2.getID()) != null;
         assertFalse(exists2);
     }
@@ -260,12 +251,44 @@ public class CollisionDetectorTest {
         world.addEntity(asteroid1);
         world.addEntity(player2);
 
-        collisionDetector.process(gameData, world); // This should NOT remove them
+        collisionDetector.process(gameData, world); // This should remove them
 
         boolean exists1 = world.getEntity(asteroid1.getID()) != null;
         assertFalse(exists1); // Assert that they do in fact collide as they should
 
         boolean exists2 = world.getEntity(player2.getID()) != null;
+        assertFalse(exists2);
+    }
+
+    /**
+     * I) Test if undefined Entities collide. <br>
+     * */
+    @Test
+    public void testCollisionUndefined() {
+        Entity entity1 = new Entity();
+        Entity entity2 = new Entity();
+        int size = 10;
+        entity1.setPolygonCoordinates(size, -size, -size, -size, -size, size, size, size);
+        entity2.setPolygonCoordinates(-5,-5,10,0,-5,5);
+
+        entity1.setRadius(size);
+        entity2.setRadius(8);
+
+        entity1.setX(10);
+        entity2.setX(10);
+
+        entity1.setY(10);
+        entity2.setY(10);
+
+        world.addEntity(entity1);
+        world.addEntity(entity2);
+
+        collisionDetector.process(gameData, world); // This should remove them
+
+        boolean exists1 = world.getEntity(entity1.getID()) != null;
+        assertFalse(exists1); // Assert that they do in fact collide as they should
+
+        boolean exists2 = world.getEntity(entity2.getID()) != null;
         assertFalse(exists2);
     }
 }

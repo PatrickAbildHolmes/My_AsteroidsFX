@@ -38,5 +38,4 @@ public class AsteroidSplitterImpl implements IAsteroidSplitter {
             System.out.println("[Splitting Asteroid into smaller ones]");
         }
     }
-
 }

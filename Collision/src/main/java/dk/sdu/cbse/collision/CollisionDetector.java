@@ -63,7 +63,7 @@ public class CollisionDetector implements IPostEntityProcessingService {
     }
 
     public void killHandler(Entity entity, World world) {
-        entity.onRemoval(entity, world);
-        world.removeEntity(entity); // Sadly entity.onRemoval requires 'World world' to be passed, so it cannot be baked into world.removeEntity(entity).
+        entity.onRemoval(entity, world); // Unfortunately entity.onRemoval requires 'World world' to be passed,
+        world.removeEntity(entity); //  so it cannot be baked into world.removeEntity(entity).
     }
 }

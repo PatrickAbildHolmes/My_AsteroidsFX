@@ -61,7 +61,7 @@ public class AsteroidProcessor implements IEntityProcessingService {
                 }
             }
         }
-        // Reset numOfAsteroidsPresent counting
+        // Reset numOfAsteroidsPresent counting for next frame
         numOfAsteroidsPresent = 0;
     }
 }

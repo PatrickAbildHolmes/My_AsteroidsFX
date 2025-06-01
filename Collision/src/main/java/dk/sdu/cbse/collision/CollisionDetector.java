@@ -12,7 +12,6 @@ public class CollisionDetector implements IPostEntityProcessingService {
         // two for loops for all entities in the world
         for (Entity entity1 : world.getEntities()) {
             for (Entity entity2 : world.getEntities()) {
-
                 // if the two entities are identical, skip the iteration
                 if (entity1.getID().equals(entity2.getID())) {
                     continue;                    
@@ -20,6 +19,15 @@ public class CollisionDetector implements IPostEntityProcessingService {
 
                 // CollisionDetection
                 if (this.collides(entity1, entity2)) {
+                    String type1 = entity1.getType();
+                    String type2 = entity2.getType();
+                    // if either entity does not have an assigned type (malformed initialization), remove both.
+                    if (type1 == null || type2 == null) {
+                        world.removeEntity(entity1);
+                        world.removeEntity(entity2);
+                        continue;
+                    }
+
                     // If both entities are bullets, remove both
                     if (entity1.getType().equals("Bullet") && entity2.getType().equals("Bullet")){
                         world.removeEntity(entity1);

@@ -7,6 +7,10 @@ Run:
 ```bash
 java --module-path mods-mvn --class-path libs/* --module=Core/dk.sdu.cbse.core.Main
 ```
+Run:
+```bash
+  mvn exec:exec
+```
 
 ## How to add more modules
 1) Run:

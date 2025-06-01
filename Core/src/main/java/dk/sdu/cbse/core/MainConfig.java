@@ -14,8 +14,6 @@ import static java.util.stream.Collectors.toList;
 public class MainConfig {
 
     public MainConfig() {}
-
-
     /** Main.java calls on this config to create an instance of Game,
      * which in turns calls on the Beans here to load the
      *
